@@ -40,10 +40,19 @@ namespace ClockV2.View
             if (!alarmManager.IsQueueEmpty())
             {
                 Alarm nextAlarm = alarmManager.GetNextAlarm();
-                if (nextAlarm.Time <= clockModel.GetCurrentTime())
+                DateTime now = clockModel.GetCurrentTime();
+
+                if (now.Hour == nextAlarm.Time.Hour &&
+                    now.Minute == nextAlarm.Time.Minute &&
+                    now.Second == nextAlarm.Time.Second)
                 {
+                    // Alert the user
                     MessageBox.Show($"Alarm: {nextAlarm.Label} is going off!", "Alarm Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Remove the alarm from the queue
                     alarmManager.RemoveNextAlarm();
+
+                    // Refresh the alarm list
                     RefreshAlarmList();
                 }
             }
