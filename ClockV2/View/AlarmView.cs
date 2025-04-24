@@ -52,9 +52,47 @@ namespace ClockV2.View
                 RefreshAlarmList();
         }
 
+        private void btn_edit_Click(object sender, EventArgs e)
+        {
+
+            DateTime newTime = txt_alarmTime.Value;
+            string newLabel = txt_alarmLabel.Text;
+            int newPriority;
+
+            if (string.IsNullOrWhiteSpace(newLabel))
+            {
+                MessageBox.Show("Please enter a label for the alarm.");
+                return;
+            }
+
+            if (!int.TryParse(txt_alarmPriority.Text, out newPriority))
+            {
+                MessageBox.Show("Please enter a valid numeric priority for the alarm.");
+                return;
+            }
+
+            Alarm selectedAlarm = alarmManager.GetNextAlarm(); // Assuming the selected alarm is the next one
+            if (selectedAlarm != null)
+            {
+                selectedAlarm.Time = newTime;
+                selectedAlarm.Label = newLabel;
+
+                alarmManager.RemoveNextAlarm();
+                alarmManager.AddAlarm(selectedAlarm, newPriority);
+
+                RefreshAlarmList();
+            }
+            else
+            {
+                MessageBox.Show("Failed to retrieve the selected alarm.");
+            }
+        }
+
         private void RefreshAlarmList()
         {
             lb_alarmList.Text = alarmManager.ToString();
         }
+
+        
     }
 }
