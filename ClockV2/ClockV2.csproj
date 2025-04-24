@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Helpers\ClockDrawingHelper.cs" />
     <Compile Include="Model\Alarm.cs" />
+    <Compile Include="Model\AlarmManager.cs" />
     <Compile Include="Presenter\ClockPresenter.cs" />
     <Compile Include="View\ClockView.cs">
       <SubType>Form</SubType>
