@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,14 +8,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClockV2.Model;
 
 namespace ClockV2.View
 {
     public partial class AlarmView : Form
     {
+        private AlarmManager alarmManager;
+
         public AlarmView()
         {
             InitializeComponent();
+            alarmManager = new AlarmManager();
+        }
+
+        private void btn_add_Click(object sender, EventArgs e)
+        {
+            DateTime time = txt_alarmTime.Value;
+            string label = txt_alarmLabel.Text;
+            int priority;
+
+            if (string.IsNullOrWhiteSpace(label))
+            {
+                MessageBox.Show("Please enter a label for the alarm.");
+                return;
+            }
+
+            if (!int.TryParse(txt_alarmPriority.Text, out priority))
+            {
+                MessageBox.Show("Please enter a valid numeric priority for the alarm.");
+                return;
+            }
+
+            Alarm alarm = new Alarm(time, label);
+            alarmManager.AddAlarm(alarm, priority);
+            RefreshAlarmList();
+        }
+        
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+                alarmManager.RemoveNextAlarm(); // Assuming the selected alarm is the next one
+                RefreshAlarmList();
+        }
+
+        private void RefreshAlarmList()
+        {
+            lb_alarmList.Text = alarmManager.ToString();
         }
     }
 }

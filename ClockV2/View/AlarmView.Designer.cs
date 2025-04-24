@@ -32,12 +32,12 @@
             this.txt_alarmPriority = new System.Windows.Forms.TextBox();
             this.txt_alarmTime = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
-            this.lb_alarmList = new System.Windows.Forms.ListBox();
             this.txt_alarmLabel = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btn_add = new System.Windows.Forms.Button();
             this.btn_edit = new System.Windows.Forms.Button();
             this.btn_delete = new System.Windows.Forms.Button();
+            this.lb_alarmList = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -73,16 +73,6 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Time";
             // 
-            // lb_alarmList
-            // 
-            this.lb_alarmList.BackColor = System.Drawing.Color.Black;
-            this.lb_alarmList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lb_alarmList.FormattingEnabled = true;
-            this.lb_alarmList.Location = new System.Drawing.Point(15, 52);
-            this.lb_alarmList.Name = "lb_alarmList";
-            this.lb_alarmList.Size = new System.Drawing.Size(234, 147);
-            this.lb_alarmList.TabIndex = 4;
-            // 
             // txt_alarmLabel
             // 
             this.txt_alarmLabel.Location = new System.Drawing.Point(121, 26);
@@ -109,6 +99,7 @@
             this.btn_add.TabIndex = 7;
             this.btn_add.Text = "Add";
             this.btn_add.UseVisualStyleBackColor = false;
+            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
             // btn_edit
             // 
@@ -131,18 +122,28 @@
             this.btn_delete.TabIndex = 9;
             this.btn_delete.Text = "Delete";
             this.btn_delete.UseVisualStyleBackColor = false;
+            this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
+            // 
+            // lb_alarmList
+            // 
+            this.lb_alarmList.AutoSize = true;
+            this.lb_alarmList.Location = new System.Drawing.Point(13, 61);
+            this.lb_alarmList.Name = "lb_alarmList";
+            this.lb_alarmList.Size = new System.Drawing.Size(35, 13);
+            this.lb_alarmList.TabIndex = 10;
+            this.lb_alarmList.Text = "label4";
             // 
             // AlarmView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(483, 240);
+            this.Controls.Add(this.lb_alarmList);
             this.Controls.Add(this.btn_delete);
             this.Controls.Add(this.btn_edit);
             this.Controls.Add(this.btn_add);
             this.Controls.Add(this.txt_alarmLabel);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.lb_alarmList);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_alarmTime);
             this.Controls.Add(this.txt_alarmPriority);
@@ -160,11 +161,11 @@
         private System.Windows.Forms.TextBox txt_alarmPriority;
         private System.Windows.Forms.DateTimePicker txt_alarmTime;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListBox lb_alarmList;
         private System.Windows.Forms.TextBox txt_alarmLabel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btn_add;
         private System.Windows.Forms.Button btn_edit;
         private System.Windows.Forms.Button btn_delete;
+        private System.Windows.Forms.Label lb_alarmList;
     }
 }
