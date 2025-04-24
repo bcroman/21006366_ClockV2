@@ -15,11 +15,38 @@ namespace ClockV2.View
     public partial class AlarmView : Form
     {
         private AlarmManager alarmManager;
+        private ClockModel clockModel;
+        private Timer alarmTimer;
 
-        public AlarmView()
+        public AlarmView(ClockModel model)
         {
             InitializeComponent();
+
+            // Corrected parameter usage
+            clockModel = model;
+
+            // Initialize alarm manager
             alarmManager = new AlarmManager();
+
+            // Initialize and configure the timer
+            alarmTimer = new Timer();
+            alarmTimer.Interval = 1000; // 1 second
+            alarmTimer.Tick += AlarmTimer_Tick;
+            alarmTimer.Start();
+        }
+
+        private void AlarmTimer_Tick(object sender, EventArgs e)
+        {
+            if (!alarmManager.IsQueueEmpty())
+            {
+                Alarm nextAlarm = alarmManager.GetNextAlarm();
+                if (nextAlarm.Time <= clockModel.GetCurrentTime())
+                {
+                    MessageBox.Show($"Alarm: {nextAlarm.Label} is going off!", "Alarm Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    alarmManager.RemoveNextAlarm();
+                    RefreshAlarmList();
+                }
+            }
         }
 
         private void btn_add_Click(object sender, EventArgs e)

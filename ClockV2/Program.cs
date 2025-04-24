@@ -21,8 +21,9 @@ namespace ClockV2
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Create the Model, View and Presenter for Alarm
-            var alarmView = new AlarmView();
-            
+            var clockModel = new ClockModel();
+            var alarmView = new AlarmView(clockModel);
+
             // Create the Model, View and Presenter for Clock
             var model = new ClockModel();
             var view = new ClockView();
