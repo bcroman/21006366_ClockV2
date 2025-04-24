@@ -58,8 +58,10 @@
             // 
             // txt_alarmTime
             // 
+            this.txt_alarmTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.txt_alarmTime.Location = new System.Drawing.Point(227, 26);
             this.txt_alarmTime.Name = "txt_alarmTime";
+            this.txt_alarmTime.ShowUpDown = true;
             this.txt_alarmTime.Size = new System.Drawing.Size(200, 20);
             this.txt_alarmTime.TabIndex = 2;
             this.txt_alarmTime.Value = new System.DateTime(2025, 4, 24, 11, 17, 0, 0);
