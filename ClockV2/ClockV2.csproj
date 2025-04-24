@@ -50,6 +50,12 @@
     <Compile Include="Model\Alarm.cs" />
     <Compile Include="Model\AlarmManager.cs" />
     <Compile Include="Presenter\ClockPresenter.cs" />
+    <Compile Include="View\AlarmView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AlarmView.Designer.cs">
+      <DependentUpon>AlarmView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ClockView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +65,9 @@
     <Compile Include="Model\ClockModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="View\AlarmView.resx">
+      <DependentUpon>AlarmView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ClockView.resx">
       <DependentUpon>ClockView.cs</DependentUpon>
     </EmbeddedResource>

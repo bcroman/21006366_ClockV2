@@ -1,5 +1,6 @@
 ﻿using ClockV2.Model;
 using ClockV2.Presenter;
+using ClockV2.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,16 @@ namespace ClockV2
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Create the Model, View and Presenter
+            // Create the Model, View and Presenter for Alarm
+            var alarmView = new AlarmView();
+            
+            // Create the Model, View and Presenter for Clock
             var model = new ClockModel();
             var view = new ClockView();
             var presenter = new ClockPresenter(model, view);
+
+            //Display Forms
+            alarmView.Show();
             Application.Run(view);
         }
     }
