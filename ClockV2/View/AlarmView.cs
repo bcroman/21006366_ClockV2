@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace ClockV2.View
         private AlarmManager alarmManager;
         private ClockModel clockModel;
         private Timer alarmTimer;
+        private const string AlarmFilePath = "alarms.ics";
 
         public AlarmView(ClockModel model)
         {
@@ -27,6 +29,12 @@ namespace ClockV2.View
 
             // Initialize alarm manager
             alarmManager = new AlarmManager();
+
+            // Prompt to load alarms
+            if (File.Exists(AlarmFilePath) && MessageBox.Show("Do you want to load saved alarms?", "Load Alarms", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                LoadAlarmsFromFile();
+            }
 
             // Initialize and configure the timer
             alarmTimer = new Timer();
@@ -129,6 +137,66 @@ namespace ClockV2.View
             lb_alarmList.Text = alarmManager.ToString();
         }
 
-        
+        private void AlarmView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Prompt to save alarms
+            if (MessageBox.Show("Do you want to save your alarms?", "Save Alarms", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                SaveAlarmsToFile();
+            }
+        }
+
+        private void SaveAlarmsToFile()
+        {
+            using (StreamWriter writer = new StreamWriter(AlarmFilePath))
+            {
+                writer.WriteLine("BEGIN:VCALENDAR");
+                writer.WriteLine("VERSION:2.0");
+
+                foreach (var alarm in alarmManager.GetAllAlarms())
+                {
+                    writer.WriteLine("BEGIN:VEVENT");
+                    writer.WriteLine($"UID:{Guid.NewGuid()}");
+                    writer.WriteLine($"DTSTAMP:{DateTime.UtcNow:yyyyMMddTHHmmssZ}");
+                    writer.WriteLine($"DTSTART:{alarm.Time:yyyyMMddTHHmmss}");
+                    writer.WriteLine($"SUMMARY:{alarm.Label}");
+                    writer.WriteLine("BEGIN:VALARM");
+                    writer.WriteLine("TRIGGER:-PT0M");
+                    writer.WriteLine($"DESCRIPTION:{alarm.Label}");
+                    writer.WriteLine("ACTION:DISPLAY");
+                    writer.WriteLine("END:VALARM");
+                    writer.WriteLine("END:VEVENT");
+                }
+
+                writer.WriteLine("END:VCALENDAR");
+            }
+        }
+
+        private void LoadAlarmsFromFile()
+        {
+            using (StreamReader reader = new StreamReader(AlarmFilePath))
+            {
+                string line;
+                DateTime time = DateTime.MinValue;
+                string label = string.Empty;
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.StartsWith("DTSTART:"))
+                    {
+                        time = DateTime.ParseExact(line.Substring(8), "yyyyMMddTHHmmss", null);
+                    }
+                    else if (line.StartsWith("SUMMARY:"))
+                    {
+                        label = line.Substring(8);
+                    }
+                    else if (line == "END:VEVENT")
+                    {
+                        alarmManager.AddAlarm(new Alarm(time, label), 0); // Default priority
+                    }
+                }
+            }
+            RefreshAlarmList();
+        }
     }
 }
