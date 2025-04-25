@@ -91,12 +91,12 @@ namespace ClockV2.View
             alarmManager.AddAlarm(alarm, priority);
             RefreshAlarmList();
         }
-        
+
 
         private void btn_delete_Click(object sender, EventArgs e)
         {
-                alarmManager.RemoveNextAlarm(); // Assuming the selected alarm is the next one
-                RefreshAlarmList();
+            alarmManager.RemoveNextAlarm(); // Assuming the selected alarm is the next one
+            RefreshAlarmList();
         }
 
         private void btn_edit_Click(object sender, EventArgs e)
@@ -163,6 +163,7 @@ namespace ClockV2.View
                     writer.WriteLine($"DTSTAMP:{DateTime.UtcNow:yyyyMMddTHHmmssZ}");
                     writer.WriteLine($"DTSTART:{alarm.Time:yyyyMMddTHHmmss}");
                     writer.WriteLine($"SUMMARY:{alarm.Label}");
+                    writer.WriteLine($"PRIORITY:{alarm.Priority}");
                     writer.WriteLine("BEGIN:VALARM");
                     writer.WriteLine("TRIGGER:-PT0M");
                     writer.WriteLine($"DESCRIPTION:{alarm.Label}");
@@ -182,6 +183,7 @@ namespace ClockV2.View
                 string line;
                 DateTime time = DateTime.MinValue;
                 string label = string.Empty;
+                int priority = 0;
 
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -193,13 +195,22 @@ namespace ClockV2.View
                     {
                         label = line.Substring(8);
                     }
+                    else if (line.StartsWith("PRIORITY:"))
+                    {
+                        if (!int.TryParse(line.Substring(9), out priority))
+                        {
+                            priority = 0; // Default to 0 if parsing fails
+                        }
+                    }
                     else if (line == "END:VEVENT")
                     {
-                        alarmManager.AddAlarm(new Alarm(time, label), 0); // Default priority
+                        alarmManager.AddAlarm(new Alarm(time, label), priority);
+                        priority = 0;
                     }
                 }
             }
             RefreshAlarmList();
         }
+
     }
 }

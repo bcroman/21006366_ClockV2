@@ -11,11 +11,13 @@ namespace ClockV2.Model
         //Variables
         public DateTime Time { get; set; }
         public string Label { get; set; }
+        public int Priority { get; set; }
 
-        public Alarm(DateTime time, string label = "")
+        public Alarm(DateTime time, string label = "", int priority = 0)
         {
             Time = time;
             Label = label;
+            Priority = priority;
         }
 
         public int CompareTo(Alarm other)
