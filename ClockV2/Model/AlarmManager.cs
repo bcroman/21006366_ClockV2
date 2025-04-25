@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using PriorityQueue;
 
 namespace ClockV2.Model
@@ -31,6 +32,25 @@ namespace ClockV2.Model
         public bool IsQueueEmpty()
         {
             return alarmQueue.IsEmpty();
+        }
+
+        // New method to retrieve all alarms
+        public List<Alarm> GetAllAlarms()
+        {
+            List<Alarm> alarms = new List<Alarm>();
+            while (!alarmQueue.IsEmpty())
+            {
+                alarms.Add(alarmQueue.Head());
+                alarmQueue.Remove();
+            }
+
+            // Re-add alarms to maintain the queue
+            foreach (var alarm in alarms)
+            {
+                alarmQueue.Add(alarm, 0); // Assuming priority is 0 for simplicity
+            }
+
+            return alarms;
         }
 
         public override string ToString()
