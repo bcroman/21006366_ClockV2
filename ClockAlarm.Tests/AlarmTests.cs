@@ -14,15 +14,21 @@ namespace ClockAlarm.Tests
     [TestFixture]
     public class ClockAlarm{
 
+        //variables
         private AlarmManager alarmManager;
 
+        // <summary>
+        // SetUp method to initialize the AlarmManager before each test
+        // </summary>
         [SetUp]
         public void SetUp()
         {
             alarmManager = new AlarmManager();
         }
 
-        // Test adding an alarm and retrieving the next alarm
+        // <summary>
+        // Test adding an alarm to the queue
+        // </summary>
         [Test]
         public void AddAlarm_And_GetNextAlarm_ReturnsCorrectAlarm()
         {
@@ -40,7 +46,9 @@ namespace ClockAlarm.Tests
             Assert.That(result, Is.EqualTo(alarm2));
         }
 
-        // Test removing the next alarm and checking the updated next alarm
+        // <summary>
+        // Test if the next alarm is removed correctly
+        // </summary>
         [Test]
         public void RemoveNextAlarm_UpdatesNextAlarmProperly()
         {
@@ -61,7 +69,9 @@ namespace ClockAlarm.Tests
             Assert.That(result, Is.EqualTo(alarm1));
         }
 
+        // <summary>
         // Test if the alarm manager is empty
+        // </summary>
         [Test]
         public void IsQueueEmpty_ReturnsTrue_WhenNoAlarms()
         {
@@ -69,7 +79,9 @@ namespace ClockAlarm.Tests
             Assert.That(alarmManager.IsQueueEmpty(), Is.True);
         }
 
+        // <summary>
         // Test if the alarm manager is not empty after adding alarms
+        // </summary>
         [Test]
         public void IsQueueEmpty_ReturnsFalse_WhenAlarmsExist()
         {
@@ -82,7 +94,9 @@ namespace ClockAlarm.Tests
             Assert.That(alarmManager.IsQueueEmpty(), Is.False);
         }
 
+        // <summary>
         // Test removing an alarm from an empty queue throws an exception
+        // </summary>
         [Test]
         public void RemoveNextAlarm_ThrowsException_WhenQueueIsEmpty()
         {
@@ -90,7 +104,9 @@ namespace ClockAlarm.Tests
             Assert.Throws<InvalidOperationException>(() => alarmManager.RemoveNextAlarm());
         }
 
+        // <summary>
         // Test adding alarms with the same priority
+        // </summary>
         [Test]
         public void AddAlarm_WithSamePriority_HandlesCorrectly()
         {

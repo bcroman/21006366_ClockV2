@@ -13,13 +13,21 @@ using ClockV2.Model;
 
 namespace ClockV2.View
 {
+    /// <summary>
+    /// Represents the view for managing alarms in the clock application.
+    /// </summary>
     public partial class AlarmView : Form
     {
+        // Variables
         private AlarmManager alarmManager;
         private ClockModel clockModel;
         private Timer alarmTimer;
         private const string AlarmFilePath = "alarms.ics";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AlarmView"/> class.
+        /// </summary>
+        /// <param name="model">The clock model providing the current time.</param>
         public AlarmView(ClockModel model)
         {
             InitializeComponent();
@@ -43,9 +51,11 @@ namespace ClockV2.View
             alarmTimer.Start();
 
             this.FormClosing += AlarmView_FormClosing;
-
         }
 
+        /// <summary>
+        /// Handles the timer tick event to check if an alarm should go off.
+        /// </summary>
         private void AlarmTimer_Tick(object sender, EventArgs e)
         {
             if (!alarmManager.IsQueueEmpty())
@@ -69,6 +79,9 @@ namespace ClockV2.View
             }
         }
 
+        /// <summary>
+        /// Handles the click event for the "Add" button to add a new alarm.
+        /// </summary>
         private void btn_add_Click(object sender, EventArgs e)
         {
             DateTime time = txt_alarmTime.Value;
@@ -92,13 +105,18 @@ namespace ClockV2.View
             RefreshAlarmList();
         }
 
-
+        /// <summary>
+        /// Handles the click event for the "Delete" button to delete the next alarm.
+        /// </summary>
         private void btn_delete_Click(object sender, EventArgs e)
         {
             alarmManager.RemoveNextAlarm(); // Assuming the selected alarm is the next one
             RefreshAlarmList();
         }
 
+        /// <summary>
+        /// Handles the click event for the "Edit" button to edit the next alarm.
+        /// </summary>
         private void btn_edit_Click(object sender, EventArgs e)
         {
 
@@ -135,11 +153,17 @@ namespace ClockV2.View
             }
         }
 
+        /// <summary>
+        /// Refreshes the alarm list displayed in the view.
+        /// </summary>
         private void RefreshAlarmList()
         {
             lb_alarmList.Text = alarmManager.ToString();
         }
 
+        /// <summary>
+        /// Handles the form closing event to prompt the user to save alarms.
+        /// </summary>
         private void AlarmView_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Prompt to save alarms
@@ -149,6 +173,9 @@ namespace ClockV2.View
             }
         }
 
+        /// <summary>
+        /// Saves the alarms to a file in iCalendar format.
+        /// </summary>
         private void SaveAlarmsToFile()
         {
             using (StreamWriter writer = new StreamWriter(AlarmFilePath))
@@ -176,6 +203,9 @@ namespace ClockV2.View
             }
         }
 
+        /// <summary>
+        /// Loads alarms from a file in iCalendar format.
+        /// </summary>
         private void LoadAlarmsFromFile()
         {
             using (StreamReader reader = new StreamReader(AlarmFilePath))

@@ -5,11 +5,17 @@ using System.IO;
 
 namespace ClockAlarm.Tests
 {
+    /// <summary>
+    /// 
     [TestFixture]
     public class IcalenderTests
     {
+        // Variables for test file path and content
         private const string TestFilePath = "test_alarms.ics";
 
+        // <summary>
+        // SetUp method to initialize the iCalender before each test
+        // </summary>
         [SetUp]
         public void SetUp()
         {
@@ -20,6 +26,9 @@ namespace ClockAlarm.Tests
             }
         }
 
+        // <summary>
+        // TearDown method to clean up after each test
+        // </summary>
         [TearDown]
         public void TearDown()
         {
@@ -30,6 +39,9 @@ namespace ClockAlarm.Tests
             }
         }
 
+        // <summary>
+        // Test method to check if the alarms are saved to a valid ICS file
+        // </summary>
         [Test]
         public void SaveAlarmsToFile_CreatesValidICSFile()
         {
@@ -44,6 +56,7 @@ namespace ClockAlarm.Tests
                 writer.WriteLine("BEGIN:VCALENDAR");
                 writer.WriteLine("VERSION:2.0");
 
+                // Write each alarm to the ICS file
                 foreach (var alarm in alarmManager.GetAllAlarms())
                 {
                     writer.WriteLine("BEGIN:VEVENT");
@@ -66,6 +79,9 @@ namespace ClockAlarm.Tests
             Assert.That(fileContent, Does.Contain("SUMMARY:Morning Alarm"));
         }
 
+        // <summary>
+        // Test method to check if the alarms are loaded from a valid ICS file
+        // </summary>
         [Test]
         public void LoadAlarmsFromFile_ParsesValidICSFile()
         {
@@ -101,6 +117,7 @@ namespace ClockAlarm.Tests
                 string label = string.Empty;
                 int priority = 0;
 
+                // Read the file line by line
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (line.StartsWith("DTSTART:"))
