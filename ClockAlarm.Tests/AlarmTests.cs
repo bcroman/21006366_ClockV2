@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClockAlarm.Tests
 {
-    public class Class1
+    internal class AlarmTests
     {
     }
 }
