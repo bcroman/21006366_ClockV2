@@ -26,7 +26,14 @@ namespace ClockV2.Model
 
         public void RemoveNextAlarm()
         {
-            alarmQueue.Remove();
+            try
+            {
+                alarmQueue.Remove();
+            }
+            catch (QueueUnderflowException ex)
+            {
+                throw new InvalidOperationException("Cannot remove from an empty alarm queue.", ex);
+            }
         }
 
         public bool IsQueueEmpty()
