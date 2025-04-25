@@ -41,6 +41,9 @@ namespace ClockV2.View
             alarmTimer.Interval = 1000; // 1 second
             alarmTimer.Tick += AlarmTimer_Tick;
             alarmTimer.Start();
+
+            this.FormClosing += AlarmView_FormClosing;
+
         }
 
         private void AlarmTimer_Tick(object sender, EventArgs e)
